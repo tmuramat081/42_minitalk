@@ -1,6 +1,4 @@
 NAME = minitalk
-C_NAME = client
-S_NAME = server
 ifndef BONUS_FLAG
 C_NAME = client
 S_NAME = server
@@ -39,11 +37,11 @@ ${S_NAME}: ${LIBFT} ${S_OBJS}
 	${CC} ${CFLAGS} $< -c -I ${INCS} -o ${<:.c=.o}
 
 clean:
-	rm -f ${C_OBJS} ${S_OBJS}
-	make fclean -C ./libft
+	rm -f ./src/*.o
+	make clean -C ./libft
 
 fclean: clean
-	rm -f ${C_NAME} ${S_NAME}
+	rm -f client server client_bonus server_bonus
 	make fclean -C ./libft
 
 re: fclean all
