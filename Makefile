@@ -46,5 +46,5 @@ re: fclean all
 
 .PHONY: all bonus clean fclean re 
 
-#kill:
-#	pgrep server | xargs kill -9
+kill:
+	pgrep server | xargs kill -9
