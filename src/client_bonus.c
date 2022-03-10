@@ -46,6 +46,7 @@ void	send_bit(pid_t svr_pid, char c)
 	int	send_signal;
 
 	i = 0;
+	usleep(SIG_INTARVAL);
 	while (i < 8)
 	{
 		if (((c >> i) & 1) == 0)
