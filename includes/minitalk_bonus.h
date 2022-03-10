@@ -13,9 +13,11 @@
 #ifndef MINITALK_BONUS_H
 # define MINITALK_BONUS_H
 
+/* By default, the client wait about 1 second for an ACK signal */
+
 # define SIG_INTARVAL 50
 # define SIG_TIME_LIMIT 2000
-# define MSG_ARG_ERR "[Invalid argument.]"
+# define MSG_ARG_ERR "Invalid argument."
 # define MSG_SIG_ERR "Transmission failed..."
 # define MSG_REC_ACK "\nTransmission succeeded!"
 # define EOT 0x4

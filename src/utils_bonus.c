@@ -13,6 +13,7 @@
 #include "minitalk_bonus.h"
 #include "libft.h"
 
+/* Initialize signal_handler. */
 void	set_signal_handler(t_sfunc signal_handler)
 {
 	struct sigaction	sa;

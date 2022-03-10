@@ -20,7 +20,8 @@ void	signal_handler(int signal)
 	g_rsignal = signal;
 }
 
-void	receive_binary(void)
+/* Convert binary into a character. */
+void	receive_bit(void)
 {
 	static char	c;
 	static int	i;
@@ -42,7 +43,7 @@ void	receive_message(void)
 	while (1)
 	{
 		pause();
-		receive_binary();
+		receive_bit();
 	}
 }
 

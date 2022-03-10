@@ -22,7 +22,7 @@ void	sig_handler_client(int signal, siginfo_t *info, void *ucontext)
 	g_rsignal = signal;
 }
 
-/* timeout => 0.01 second , 0.00001 second*/
+/* Wait an ACK signal from the server. */
 void	check_ack_signal(int send_signal)
 {
 	int	timeout;
@@ -39,7 +39,7 @@ void	check_ack_signal(int send_signal)
 	print_error_and_exit(MSG_SIG_ERR);
 }
 
-/* SIGUSR1 = bit 0, SIGUSR2 = bit 1 */
+/* Send signals with SIGUSR1(bit off) and SIGUSR2(bit on). */
 void	send_bit(pid_t svr_pid, char c)
 {
 	int	i;
@@ -60,6 +60,7 @@ void	send_bit(pid_t svr_pid, char c)
 	}
 }
 
+/* After sendng all the characters, send EOT(End Of Transmission) signal. */
 void	send_message(pid_t svr_pid, const char *str)
 {
 	while (*str != '\0')

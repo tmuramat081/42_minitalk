@@ -13,7 +13,7 @@
 #include "minitalk.h"
 #include "libft.h"
 
-/* SIGUSR1 = bit OFF, SIGUSR2 = bit ON */
+/* Send signals with SIGUSR1(bit off) and SIGUSR2(bit on). */
 void	send_bit(pid_t svr_pid, char c)
 {
 	int	i;

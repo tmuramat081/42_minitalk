@@ -25,6 +25,7 @@ void	sig_handler_server(int signal, siginfo_t *info, void *ucontext)
 		kill(info->si_pid, SIGUSR1);
 }
 
+/* Convert binary into a character. */
 void	receive_bit(void)
 {
 	static int	c;
