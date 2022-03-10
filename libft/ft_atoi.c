@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tmuramat <tmuramat@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/25 19:47:40 by tmuramat          #+#    #+#             */
+/*   Updated: 2022/02/25 19:47:41 by tmuramat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 int	ft_atoi(const char *str)
 {
-	int			flag;
+	int			sign;
 	long int	num;
 
-	flag = 1;
+	sign = 1;
 	num = 0;
 	while (*str == ' ' || *str == '\f' || *str == '\n'
 		|| *str == '\r' || *str == '\t' || *str == '\v')
@@ -14,7 +26,7 @@ int	ft_atoi(const char *str)
 		str += 1;
 	else if (*str == '-')
 	{
-		flag = 0;
+		sign = 0;
 		str += 1;
 	}
 	while ('0' <= *str && *str <= '9')
@@ -22,7 +34,7 @@ int	ft_atoi(const char *str)
 		num = num * 10 + *str - '0';
 		str++;
 	}
-	if (!flag)
+	if (!sign)
 		num = 0 - num;
 	return (num);
 }

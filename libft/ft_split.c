@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tmuramat <tmuramat@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/25 19:49:12 by tmuramat          #+#    #+#             */
+/*   Updated: 2022/02/25 19:49:13 by tmuramat         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static char	**count_split(const char *str, char c)
@@ -11,11 +23,11 @@ static char	**count_split(const char *str, char c)
 	while (str[i] != '\0')
 	{
 		if (str[i] != c && str[i + 1] == c)
-			cnt = cnt + 1;
+			cnt += 1;
 		i++;
 	}
 	if (str[i - 1] == c)
-		cnt = cnt - 1;
+		cnt += 1;
 	str_sp = (char **)malloc(sizeof(char *) * (cnt + 1));
 	return (str_sp);
 }

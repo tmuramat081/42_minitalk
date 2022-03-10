@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmuramat <mt15hydrangea@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/10 14:49:41 by tmuramat          #+#    #+#             */
-/*   Updated: 2022/03/10 14:49:46 by tmuramat         ###   ########.fr       */
+/*   Created: 2022/02/25 19:49:55 by tmuramat          #+#    #+#             */
+/*   Updated: 2022/02/25 23:26:35 by tmuramat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <errno.h>
+# include <stdint.h>
 
 typedef struct s_list
 {
