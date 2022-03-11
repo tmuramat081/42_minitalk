@@ -41,11 +41,17 @@ void	send_bit(pid_t svr_pid, char c)
 	}
 }
 
+void	send_client_pid(pid_t svr_pid)
+{
+	kill(svr_pid, SIGUSR1);
+	if (is_timeout() == true)
+		print_error_and_exit(MSG_SIG_ERR);
+}
+
 /* After sendng all the characters, send EOT(End Of Transmission) signal. */
 void	send_message(pid_t svr_pid, const char *str)
 {
-	kill(svr_pid, SIGUSR1);
-	usleep(100);
+	send_client_pid(svr_pid);
 	while (*str != '\0')
 	{
 		send_bit(svr_pid, *str);

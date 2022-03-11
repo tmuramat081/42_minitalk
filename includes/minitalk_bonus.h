@@ -41,7 +41,7 @@ void	send_message(pid_t svr_pid, const char *str);
 /*** server_bonus.c ***/
 void	sig_handler_server(int signal, siginfo_t *info, void *ucontext);
 char	receive_bit(t_char *input);
-void	receive_message(void);
+void	receive_message(t_char input);
 
 /*** utils_bonus.c ***/
 bool	is_timeout(void);
