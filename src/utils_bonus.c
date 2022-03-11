@@ -13,6 +13,23 @@
 #include "minitalk_bonus.h"
 #include "libft.h"
 
+extern volatile sig_atomic_t	g_receive_signal; 
+
+/* Wait signal from the client/server. */
+bool	is_timeout(void)
+{
+	int	time_limit;
+
+	time_limit = SIG_TIME_LIMIT;
+	while (time_limit--)
+	{
+		if (g_receive_signal)
+			return (false);
+		usleep(10);
+	}
+	return (true);
+}
+
 /* Initialize signal_handler. */
 void	set_signal_handler(t_sfunc signal_handler)
 {

@@ -13,7 +13,7 @@
 #ifndef MINITALK_H
 # define MINITALK_H
 
-# define SIG_INTARVAL 300
+# define SIG_INTARVAL 100
 # define MSG_ARG_ERR "Invalid argument."
 # define MSG_SIG_ERR "Transmission failed..."
 

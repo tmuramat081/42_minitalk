@@ -22,41 +22,21 @@ void	sig_handler_client(int signal, siginfo_t *info, void *ucontext)
 	g_receive_signal = signal;
 }
 
-/* Wait an ACK signal from the server. */
-bool	is_timeout_ack(int send_signal)
-{
-	int time_limit;
-	time_limit =SIG_C_TIME_LIMIT;
-	
-	while (time_limit--)
-	{
-		if (send_signal == SIGUSR1 && g_receive_signal == SIGUSR1)
-			return (false);
-		else if (send_signal == SIGUSR2 && g_receive_signal == SIGUSR2)
-			return (false);
-		usleep(10);
-	}
-	return (true);
-}
-
 /* Send signals with SIGUSR1(bit off) and SIGUSR2(bit on). */
 void	send_bit(pid_t svr_pid, char c)
 {
 	int	i;
-	int	send_signal;
 
 	i = 0;
 	while (i < 8)
 	{
-		if (((c >> i) & 1) == 0)
-			send_signal = SIGUSR1;
-		else
-			send_signal = SIGUSR2;
-		kill(svr_pid, send_signal);
-		if (is_timeout_ack(send_signal) == true)
-			print_error_and_exit(MSG_SIG_ERR);
-		usleep(SIG_INTARVAL);
 		g_receive_signal = 0;
+		if (((c >> i) & 1) == 0)
+			kill(svr_pid, SIGUSR1);
+		else
+			kill(svr_pid, SIGUSR2);
+		if (is_timeout() == true)
+			print_error_and_exit(MSG_SIG_ERR);
 		i++;
 	}
 }
@@ -64,6 +44,8 @@ void	send_bit(pid_t svr_pid, char c)
 /* After sendng all the characters, send EOT(End Of Transmission) signal. */
 void	send_message(pid_t svr_pid, const char *str)
 {
+	kill(svr_pid, SIGUSR1);
+	usleep(100);
 	while (*str != '\0')
 	{
 		send_bit(svr_pid, *str);

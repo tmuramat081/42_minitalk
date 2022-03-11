@@ -18,11 +18,10 @@ volatile sig_atomic_t	g_receive_signal;
 void	sig_handler_server(int signal, siginfo_t *info, void *ucontext)
 {
 	(void)ucontext;
-	g_receive_signal = signal;
-	if (signal == SIGUSR1)
-		kill(info->si_pid, SIGUSR1);
+	if (g_receive_signal == -1)
+		g_receive_signal = info->si_pid;
 	else
-		kill(info->si_pid, SIGUSR2);
+		g_receive_signal = signal;
 }
 
 /* Convert binary into a character. */
@@ -40,39 +39,30 @@ char	receive_bit(t_char *input)
 		ft_bzero(input, sizeof(t_char));
 		return (ret_c);
 	}
-	return ('\0');
-}
-
-bool	is_timeout_signal(void)
-{
-	int time_limit;
-
-	time_limit = SIG_C_TIME_LIMIT;
-	while (time_limit--)
-	{
-		if (g_receive_signal)
-			return (false);
-		usleep(10);
-	}
-	return (true);
+	return (0);
 }
 
 void	receive_message(void)
 {
 	t_char	input;
-	char 	output_c;
+	char	output_c;
+	int 	cli_pid;
 
 	while (1)
 	{
 		ft_bzero(&input, sizeof(t_char));
+		g_receive_signal = -1;
 		pause();
-		while (1)
+		cli_pid = g_receive_signal;
+		g_receive_signal = 0;
+		while (is_timeout() == false)
 		{
 			output_c = receive_bit(&input);
-			if (output_c)
+			kill(cli_pid, SIGUSR1);
+			if (output_c == EOT)
+				break ;
+			else if (output_c)
 				write(1, &output_c, 1);
-			if (output_c == EOT || is_timeout_signal() == true)
-				break;
 		}
 	}
 }
