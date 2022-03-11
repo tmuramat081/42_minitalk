@@ -35,7 +35,7 @@ void	send_bit(pid_t svr_pid, char c)
 			kill(svr_pid, SIGUSR1);
 		else
 			kill(svr_pid, SIGUSR2);
-		if (is_timeout() == true)
+		if (is_timeout(SIG_TIME_LIMIT) == true)
 			print_error_and_exit(MSG_SIG_ERR);
 		i++;
 	}
@@ -44,7 +44,7 @@ void	send_bit(pid_t svr_pid, char c)
 void	send_client_pid(pid_t svr_pid)
 {
 	kill(svr_pid, SIGUSR1);
-	if (is_timeout() == true)
+	if (is_timeout(SIG_TIME_LIMIT) == true)
 		print_error_and_exit(MSG_SIG_ERR);
 }
 

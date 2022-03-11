@@ -15,7 +15,7 @@
 
 volatile sig_atomic_t	g_receive_signal;
 
-void	signal_handler(int signal)
+void	sig_handler(int signal)
 {
 	g_receive_signal = signal;
 }
@@ -49,13 +49,11 @@ void	receive_message(void)
 
 int	main(void)
 {
-	pid_t	svr_pid;
+	int	svr_pid;
 
-	svr_pid = getpid();
-	ft_putstr_fd("PID:", 1);
-	ft_putnbr_fd(svr_pid, 1);
-	ft_putchar_fd('\n', 1);
-	set_signal_handler(&signal_handler);
+	svr_pid = (int)getpid();
+	print_pid(svr_pid);
+	set_signal_handler(&sig_handler);
 	receive_message();
 	return (0);
 }

@@ -15,7 +15,7 @@
 
 /* By default, client/server wait about 1 second for a signal */
 # define S_INITIAL -1
-# define SIG_TIME_LIMIT 1000
+# define SIG_TIME_LIMIT 10000
 # define MSG_ARG_ERR "Invalid argument."
 # define MSG_SIG_ERR "Transmission failed..."
 # define MSG_REC_ACK "\nTransmission succeeded!"
@@ -34,16 +34,18 @@ typedef void(*t_sfunc)(int, siginfo_t *, void *);
 
 /*** client_bonus.c ***/
 void	sig_handler_client(int signal, siginfo_t *info, void *ucontext);
-void	send_bit(pid_t svr_pid, char c);
 void	send_message(pid_t svr_pid, const char *str);
+void	send_client_pid(pid_t svr_pid);
+void	send_bit(pid_t svr_pid, char c);
 
 /*** server_bonus.c ***/
 void	sig_handler_server(int signal, siginfo_t *info, void *ucontext);
-char	receive_bit(t_char *input);
 void	receive_message(t_char input);
+int		receive_client_pid(void);
+char	receive_bit(t_char *input);
 
 /*** utils_bonus.c ***/
-bool	is_timeout(void);
+bool	is_timeout(int time_limit);
 void	set_signal_handler(t_sfunc signal_handler);
 void	print_error_and_exit(char *err_msg);
 void	print_pid(int pid);

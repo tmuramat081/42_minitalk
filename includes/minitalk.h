@@ -23,16 +23,16 @@
 typedef void(*t_sfunc)(int);
 
 /*** client.c ***/
-void	send_bit(pid_t svr_pid, char c);
 void	send_message(pid_t svr_pid, const char *str);
+void	send_bit(pid_t svr_pid, char c);
 
 /*** server.c ***/
-void	signal_handler(int signal);
-void	receive_binary(void);
+void	sig_handler(int signal);
 void	receive_message(void);
+void	receive_bit(void);
 
 /*** utils.c ***/
 void	set_signal_handler(t_sfunc signal_handler);
 void	print_error_and_exit(char *err_msg);
-
+void	print_pid(int pid);
 #endif

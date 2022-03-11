@@ -48,6 +48,8 @@ int	main(int argc, char **argv)
 	svr_pid = ft_atoi(argv[1]);
 	if (svr_pid <= 0)
 		print_error_and_exit(MSG_ARG_ERR);
+	if (kill(svr_pid, 0) == -1)
+		print_error_and_exit(MSG_SIG_ERR);
 	send_message(svr_pid, argv[2]);
 	return (0);
 }

@@ -33,3 +33,10 @@ void	print_error_and_exit(char *err_msg)
 	ft_putendl_fd(err_msg, 1);
 	exit(1);
 }
+
+void	print_pid(int pid)
+{
+	ft_putstr_fd("PID:", 1);
+	ft_putnbr_fd(pid, 1);
+	ft_putchar_fd('\n', 1);
+}

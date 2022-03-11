@@ -57,7 +57,7 @@ void	receive_message(t_char input)
 	char	output_c;
 
 	cli_pid = receive_client_pid();
-	while (is_timeout() == false)
+	while (is_timeout(SIG_TIME_LIMIT) == false)
 	{
 		output_c = receive_bit(&input);
 		g_receive_signal = 0;
