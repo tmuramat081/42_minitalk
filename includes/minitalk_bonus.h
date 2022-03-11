@@ -14,7 +14,7 @@
 # define MINITALK_BONUS_H
 
 /* By default, client/server wait about 1 second for a signal */
-# define SIG_INTARVAL 100
+# define S_INITIAL -1
 # define SIG_TIME_LIMIT 1000
 # define MSG_ARG_ERR "Invalid argument."
 # define MSG_SIG_ERR "Transmission failed..."
@@ -24,7 +24,6 @@
 # include <sys/types.h>
 # include <signal.h>
 # include <stdbool.h>
-# include <stdio.h>
 
 typedef struct s_char {
 	char	c;

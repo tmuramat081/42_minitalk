@@ -18,7 +18,7 @@ volatile sig_atomic_t	g_receive_signal;
 void	sig_handler_server(int signal, siginfo_t *info, void *ucontext)
 {
 	(void)ucontext;
-	if (g_receive_signal == -1)
+	if (g_receive_signal == S_INITIAL)
 		g_receive_signal = info->si_pid;
 	else
 		g_receive_signal = signal;
@@ -31,7 +31,6 @@ char	receive_bit(t_char *input)
 
 	if (g_receive_signal == SIGUSR2)
 		input->c |= (1 << input->i);
-	g_receive_signal = 0;
 	input->i++;
 	if (input->i == 8)
 	{
@@ -42,9 +41,9 @@ char	receive_bit(t_char *input)
 	return (0);
 }
 
-int	receive_client_pid()
+int	receive_client_pid(void)
 {
-	int 	cli_pid;
+	int	cli_pid;
 
 	cli_pid = g_receive_signal;
 	kill(cli_pid, SIGUSR1);
@@ -54,13 +53,14 @@ int	receive_client_pid()
 
 void	receive_message(t_char input)
 {
-	int 	cli_pid;
+	int		cli_pid;
 	char	output_c;
 
 	cli_pid = receive_client_pid();
 	while (is_timeout() == false)
 	{
 		output_c = receive_bit(&input);
+		g_receive_signal = 0;
 		kill(cli_pid, SIGUSR1);
 		if (output_c == EOT)
 			break ;
@@ -80,7 +80,7 @@ int	main(void)
 	while (1)
 	{
 		ft_bzero(&input, sizeof(t_char));
-		g_receive_signal = -1;
+		g_receive_signal = S_INITIAL;
 		pause();
 		receive_message(input);
 	}
