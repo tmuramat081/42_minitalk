@@ -1,4 +1,4 @@
-NAME = ${C_NAME} ${S_NAME}
+NAME = minitalk
 ifndef BONUS_FLAG
 C_NAME = client
 S_NAME = server
@@ -16,6 +16,8 @@ LIBFT = ./libft/libft.a
 INCS = ./includes
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
+
+${NAME}: ${C_NAME} ${S_NAME}
 
 all: ${NAME}
 
