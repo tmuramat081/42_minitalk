@@ -13,11 +13,11 @@
 #include "minitalk.h"
 #include "libft.h"
 
-volatile sig_atomic_t	g_rsignal;
+volatile sig_atomic_t	g_receive_signal;
 
 void	signal_handler(int signal)
 {
-	g_rsignal = signal;
+	g_receive_signal = signal;
 }
 
 /* Convert binary into a character. */
@@ -26,7 +26,7 @@ void	receive_bit(void)
 	static char	c;
 	static int	i;
 
-	if (g_rsignal == SIGUSR2)
+	if (g_receive_signal == SIGUSR2)
 		c |= (1 << i);
 	i++;
 	if (i == 8)

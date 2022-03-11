@@ -13,26 +13,26 @@
 #include "minitalk_bonus.h"
 #include "libft.h"
 
-volatile sig_atomic_t	g_rsignal;
+volatile sig_atomic_t	g_receive_signal;
 
 void	sig_handler_client(int signal, siginfo_t *info, void *ucontext)
 {
 	(void)info;
 	(void)ucontext;
-	g_rsignal = signal;
+	g_receive_signal = signal;
 }
 
 /* Wait an ACK signal from the server. */
 bool	is_timeout_ack(int send_signal)
 {
-	int timeout;
-
-	timeout = 10000;
-	while (timeout--)
+	int time_limit;
+	time_limit =SIG_C_TIME_LIMIT;
+	
+	while (time_limit--)
 	{
-		if (send_signal == SIGUSR1 && g_rsignal == SIGUSR1)
+		if (send_signal == SIGUSR1 && g_receive_signal == SIGUSR1)
 			return (false);
-		else if (send_signal == SIGUSR2 && g_rsignal == SIGUSR2)
+		else if (send_signal == SIGUSR2 && g_receive_signal == SIGUSR2)
 			return (false);
 		usleep(10);
 	}
@@ -46,7 +46,6 @@ void	send_bit(pid_t svr_pid, char c)
 	int	send_signal;
 
 	i = 0;
-	usleep(SIG_INTARVAL);
 	while (i < 8)
 	{
 		if (((c >> i) & 1) == 0)
@@ -57,7 +56,7 @@ void	send_bit(pid_t svr_pid, char c)
 		if (is_timeout_ack(send_signal) == true)
 			print_error_and_exit(MSG_SIG_ERR);
 		usleep(SIG_INTARVAL);
-		g_rsignal = 0;
+		g_receive_signal = 0;
 		i++;
 	}
 }

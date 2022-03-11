@@ -13,10 +13,11 @@
 #ifndef MINITALK_BONUS_H
 # define MINITALK_BONUS_H
 
-/* By default, the client wait about 1 second for an ACK signal */
+/* By default, client/server wait about 1 second for a signal */
 
 # define SIG_INTARVAL 100
-# define SIG_TIME_LIMIT 1
+# define SIG_C_TIME_LIMIT 50000
+# define SIG_S_TIME_LIMIT 100000
 # define MSG_ARG_ERR "Invalid argument."
 # define MSG_SIG_ERR "Transmission failed..."
 # define MSG_REC_ACK "\nTransmission succeeded!"
@@ -35,14 +36,14 @@ typedef void(*t_sfunc)(int, siginfo_t *, void *);
 
 /*** client_bonus.c ***/
 void	sig_handler_client(int signal, siginfo_t *info, void *ucontext);
-bool	wait_ack_signal(int send_signal);
+bool	is_timeout_ack(int send_signal);
 void	send_bit(pid_t svr_pid, char c);
 void	send_message(pid_t svr_pid, const char *str);
 
 /*** server_bonus.c ***/
 void	sig_handler_server(int signal, siginfo_t *info, void *ucontext);
 char	receive_bit(t_char *input);
-bool	is_timeout(void);
+bool	is_timeout_signal(void);
 void	receive_message(void);
 
 /*** utils_bonus.c ***/
