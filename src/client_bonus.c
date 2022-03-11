@@ -30,11 +30,11 @@ void	check_ack_signal(int send_signal)
 	timeout = SIG_TIME_LIMIT;
 	while (timeout--)
 	{
-		if (send_signal == SIGUSR1 && g_rsignal == SIGUSR2)
+		if (send_signal == SIGUSR1 && g_rsignal == SIGUSR1)
 			return ;
-		else if (send_signal == SIGUSR2 && g_rsignal == SIGUSR1)
+		else if (send_signal == SIGUSR2 && g_rsignal == SIGUSR2)
 			return ;
-		usleep(SIG_INTARVAL);
+		usleep(10);
 	}
 	print_error_and_exit(MSG_SIG_ERR);
 }

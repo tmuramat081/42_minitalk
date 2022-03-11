@@ -20,9 +20,9 @@ void	sig_handler_server(int signal, siginfo_t *info, void *ucontext)
 	(void)ucontext;
 	g_rsignal = signal;
 	if (signal == SIGUSR1)
-		kill(info->si_pid, SIGUSR2);
-	else
 		kill(info->si_pid, SIGUSR1);
+	else
+		kill(info->si_pid, SIGUSR2);
 }
 
 /* Convert binary into a character. */
