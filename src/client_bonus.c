@@ -25,11 +25,17 @@ void	sig_handler_client(int signal, siginfo_t *info, void *ucontext)
 /* Wait an ACK signal from the server. */
 bool	is_timeout_ack(int send_signal)
 {
-	sleep(SIG_TIME_LIMIT);
-	if (send_signal == SIGUSR1 && g_rsignal == SIGUSR1)
-		return (false);
-	else if (send_signal == SIGUSR2 && g_rsignal == SIGUSR2)
-		return (false);
+	int timeout;
+
+	timeout = 10000;
+	while (timeout--)
+	{
+		if (send_signal == SIGUSR1 && g_rsignal == SIGUSR1)
+			return (false);
+		else if (send_signal == SIGUSR2 && g_rsignal == SIGUSR2)
+			return (false);
+		usleep(10);
+	}
 	return (true);
 }
 

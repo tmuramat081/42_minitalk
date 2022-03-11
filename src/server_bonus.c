@@ -32,12 +32,11 @@ char	receive_bit(t_char *input)
 
 	if (g_rsignal == SIGUSR2)
 		input->c |= (1 << input->i);
-	input->i++;
+	(input->i)++;
 	if (input->i == 8)
 	{
 		ret_c = input->c;
-		input->c = 0;
-		input->i = 0;
+		ft_bzero(input, sizeof(t_char));
 		return (ret_c);
 	}
 	return ('\0');
@@ -46,9 +45,9 @@ char	receive_bit(t_char *input)
 bool	is_timeout_sig(void)
 {
 	sleep(SIG_TIME_LIMIT);
-	if (g_rsignal)
-		return (false);
-	return (true);
+	if (!g_rsignal)
+		return (true);
+	return (false);
 }
 
 void	receive_message(void)
