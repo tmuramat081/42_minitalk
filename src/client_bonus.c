@@ -13,13 +13,13 @@
 #include "minitalk_bonus.h"
 #include "libft.h"
 
-volatile sig_atomic_t	g_receive_signal;
+volatile sig_atomic_t	g_received_signal;
 
 void	sig_handler_client(int signal, siginfo_t *info, void *ucontext)
 {
 	(void)info;
 	(void)ucontext;
-	g_receive_signal = signal;
+	g_received_signal = signal;
 }
 
 /* Send signals with SIGUSR1(bit off) and SIGUSR2(bit on). */
@@ -30,7 +30,7 @@ void	send_bit(pid_t svr_pid, char c)
 	i = 0;
 	while (i < 8)
 	{
-		g_receive_signal = 0;
+		g_received_signal = 0;
 		if (((c >> i) & 1) == 0)
 			kill(svr_pid, SIGUSR1);
 		else

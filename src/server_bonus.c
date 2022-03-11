@@ -13,15 +13,15 @@
 #include "minitalk_bonus.h"
 #include "libft.h"
 
-volatile sig_atomic_t	g_receive_signal;
+volatile sig_atomic_t	g_received_signal;
 
 void	sig_handler_server(int signal, siginfo_t *info, void *ucontext)
 {
 	(void)ucontext;
-	if (g_receive_signal == S_INITIAL)
-		g_receive_signal = info->si_pid;
+	if (g_received_signal == S_INITIAL)
+		g_received_signal = info->si_pid;
 	else
-		g_receive_signal = signal;
+		g_received_signal = signal;
 }
 
 /* Convert binary into a character. */
@@ -29,7 +29,7 @@ char	receive_bit(t_char *input)
 {
 	char		ret_c;
 
-	if (g_receive_signal == SIGUSR2)
+	if (g_received_signal == SIGUSR2)
 		input->c |= (1 << input->i);
 	input->i++;
 	if (input->i == 8)
@@ -45,9 +45,9 @@ int	receive_client_pid(void)
 {
 	int	cli_pid;
 
-	cli_pid = g_receive_signal;
+	cli_pid = g_received_signal;
 	kill(cli_pid, SIGUSR1);
-	g_receive_signal = 0;
+	g_received_signal = 0;
 	return (cli_pid);
 }
 
@@ -60,7 +60,7 @@ void	receive_message(t_char input)
 	while (is_timeout(SIG_TIME_LIMIT) == false)
 	{
 		output_c = receive_bit(&input);
-		g_receive_signal = 0;
+		g_received_signal = 0;
 		kill(cli_pid, SIGUSR1);
 		if (output_c == EOT)
 			break ;
@@ -80,7 +80,7 @@ int	main(void)
 	while (1)
 	{
 		ft_bzero(&input, sizeof(t_char));
-		g_receive_signal = S_INITIAL;
+		g_received_signal = S_INITIAL;
 		pause();
 		receive_message(input);
 	}

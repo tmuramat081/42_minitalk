@@ -13,14 +13,14 @@
 #include "minitalk_bonus.h"
 #include "libft.h"
 
-extern volatile sig_atomic_t	g_receive_signal;
+extern volatile sig_atomic_t	g_received_signal;
 
 /* Wait signal from the client/server. */
 bool	is_timeout(int time_limit)
 {
 	while (time_limit--)
 	{
-		if (g_receive_signal)
+		if (g_received_signal)
 			return (false);
 		usleep(10);
 	}
