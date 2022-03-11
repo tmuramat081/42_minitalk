@@ -35,7 +35,7 @@ void	send_message(pid_t svr_pid, const char *str);
 
 /*** server_bonus.c ***/
 void	sig_handler_server(int signal, siginfo_t *info, void *ucontext);
-void	receive_bit(void);
+char	receive_bit(void);
 void	receive_message(void);
 
 /*** utils_bonus.c ***/

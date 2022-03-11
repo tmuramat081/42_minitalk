@@ -26,28 +26,35 @@ void	sig_handler_server(int signal, siginfo_t *info, void *ucontext)
 }
 
 /* Convert binary into a character. */
-void	receive_bit(void)
+char	receive_bit(void)
 {
 	static int	c;
 	static int	i;
+	char		ret_c;
 
 	if (g_rsignal == SIGUSR2)
 		c |= (1 << i);
 	i++;
 	if (i == 8)
 	{
-		write(1, &c, 1);
+		ret_c = c;
 		c = 0;
 		i = 0;
+		return (ret_c);
 	}
+	return (0);
 }
 
 void	receive_message(void)
 {
+	char put_c;
+
 	while (1)
 	{
 		pause();
-		receive_bit();
+		put_c = receive_bit();
+		if (put_c)
+			write(1, &put_c, 1);
 		g_rsignal = 0;
 	}
 }
