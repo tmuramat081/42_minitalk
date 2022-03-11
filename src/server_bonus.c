@@ -26,36 +26,49 @@ void	sig_handler_server(int signal, siginfo_t *info, void *ucontext)
 }
 
 /* Convert binary into a character. */
-char	receive_bit(void)
+char	receive_bit(t_char *input)
 {
-	static int	c;
-	static int	i;
 	char		ret_c;
 
 	if (g_rsignal == SIGUSR2)
-		c |= (1 << i);
-	i++;
-	if (i == 8)
+		input->c |= (1 << input->i);
+	input->i++;
+	if (input->i == 8)
 	{
-		ret_c = c;
-		c = 0;
-		i = 0;
+		ret_c = input->c;
+		input->c = 0;
+		input->i = 0;
 		return (ret_c);
 	}
-	return (0);
+	return ('\0');
+}
+
+bool	is_timeout_sig(void)
+{
+	sleep(SIG_TIME_LIMIT);
+	if (g_rsignal)
+		return (false);
+	return (true);
 }
 
 void	receive_message(void)
 {
-	char put_c;
+	t_char	input;
+	char 	output_c;
 
 	while (1)
 	{
+		ft_bzero(&input, sizeof(t_char));
 		pause();
-		put_c = receive_bit();
-		if (put_c)
-			write(1, &put_c, 1);
-		g_rsignal = 0;
+		while (1)
+		{
+			output_c = receive_bit(&input);
+			if (output_c)
+				write(1, &output_c, 1);
+			g_rsignal = 0;
+			if (output_c == EOT || is_timeout_sig() == true)
+				break;
+		}
 	}
 }
 
@@ -64,9 +77,7 @@ int	main(void)
 	int	svr_pid;
 
 	svr_pid = (int)getpid();
-	ft_putstr_fd("PID:", 1);
-	ft_putnbr_fd(svr_pid, 1);
-	ft_putchar_fd('\n', 1);
+	print_pid(svr_pid);
 	set_signal_handler(&sig_handler_server);
 	receive_message();
 	return (0);

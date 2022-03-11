@@ -23,20 +23,14 @@ void	sig_handler_client(int signal, siginfo_t *info, void *ucontext)
 }
 
 /* Wait an ACK signal from the server. */
-void	check_ack_signal(int send_signal)
+bool	is_timeout_ack(int send_signal)
 {
-	int	timeout;
-
-	timeout = SIG_TIME_LIMIT;
-	while (timeout--)
-	{
-		if (send_signal == SIGUSR1 && g_rsignal == SIGUSR1)
-			return ;
-		else if (send_signal == SIGUSR2 && g_rsignal == SIGUSR2)
-			return ;
-		usleep(10);
-	}
-	print_error_and_exit(MSG_SIG_ERR);
+	sleep(SIG_TIME_LIMIT);
+	if (send_signal == SIGUSR1 && g_rsignal == SIGUSR1)
+		return (false);
+	else if (send_signal == SIGUSR2 && g_rsignal == SIGUSR2)
+		return (false);
+	return (true);
 }
 
 /* Send signals with SIGUSR1(bit off) and SIGUSR2(bit on). */
@@ -54,7 +48,8 @@ void	send_bit(pid_t svr_pid, char c)
 		else
 			send_signal = SIGUSR2;
 		kill(svr_pid, send_signal);
-		check_ack_signal(send_signal);
+		if (is_timeout_ack(send_signal) == true)
+			print_error_and_exit(MSG_SIG_ERR);
 		usleep(SIG_INTARVAL);
 		g_rsignal = 0;
 		i++;
@@ -82,6 +77,8 @@ int	main(int argc, char **argv)
 	svr_pid = ft_atoi(argv[1]);
 	if (svr_pid <= 0)
 		print_error_and_exit(MSG_ARG_ERR);
+	if (kill(svr_pid, 0) == -1)
+		print_error_and_exit(MSG_SIG_ERR);
 	set_signal_handler(&sig_handler_client);
 	send_message(svr_pid, argv[2]);
 	return (0);
