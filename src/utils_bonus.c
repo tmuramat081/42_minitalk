@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minitalk_bonus.h"
+#include "system_message.h"
 #include "libft.h"
 
 extern volatile sig_atomic_t	g_received_signal;
@@ -42,11 +43,26 @@ void	set_signal_handler(t_sfunc signal_handler)
 		print_error_and_exit(MSG_SIG_ERR);
 }
 
-void	print_pid(int pid)
+void	print_pid(pid_t pid)
 {
 	ft_putstr_fd("PID:", 1);
 	ft_putnbr_fd(pid, 1);
 	ft_putchar_fd('\n', 1);
+}
+
+pid_t	input_pid(char *nptr)
+{
+	char	*endptr;
+	long	input_pid;
+
+	input_pid = ft_strtol_d(nptr, &endptr);
+	if (errno != 0 && (input_pid == LONG_MAX || input_pid == LONG_MIN))
+		print_error_and_exit(MSG_ARG_ERR);
+	else if (*endptr)
+		print_error_and_exit(MSG_ARG_ERR);
+	else if (input_pid <= 0 || kill(input_pid, 0) == -1)
+		print_error_and_exit(MSG_SIG_ERR);
+	return ((pid_t)input_pid);
 }
 
 void	print_error_and_exit(char *err_msg)

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minitalk.h"
+#include "system_message.h"
 #include "libft.h"
 
 /* Initialize signal_handler. */
@@ -39,4 +40,19 @@ void	print_pid(int pid)
 	ft_putstr_fd("PID:", 1);
 	ft_putnbr_fd(pid, 1);
 	ft_putchar_fd('\n', 1);
+}
+
+int	input_pid(char *nptr)
+{
+	char	*endptr;
+	long	input_pid;
+
+	input_pid = ft_strtol_d(nptr, &endptr);
+	if (errno != 0 && (input_pid == LONG_MAX || input_pid == LONG_MIN))
+		print_error_and_exit(MSG_ARG_ERR);
+	else if (*endptr)
+		print_error_and_exit(MSG_ARG_ERR);
+	else if (input_pid <= 0 || kill(input_pid, 0) == -1)
+		print_error_and_exit(MSG_SIG_ERR);
+	return ((pid_t)input_pid);
 }

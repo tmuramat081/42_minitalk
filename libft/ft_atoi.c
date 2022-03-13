@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmuramat <tmuramat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmuramat <mt15hydrangea@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 19:47:40 by tmuramat          #+#    #+#             */
-/*   Updated: 2022/02/25 19:47:41 by tmuramat         ###   ########.fr       */
+/*   Updated: 2022/03/12 22:15:46 by tmuramat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_atoi(const char *str)
 		sign = 0;
 		str += 1;
 	}
-	while ('0' <= *str && *str <= '9')
+	while (ft_isdigit(*str))
 	{
 		num = num * 10 + *str - '0';
 		str++;

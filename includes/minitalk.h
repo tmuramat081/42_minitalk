@@ -13,12 +13,12 @@
 #ifndef MINITALK_H
 # define MINITALK_H
 
-# define SIG_INTARVAL 400
-# define MSG_ARG_ERR "Invalid argument."
-# define MSG_SIG_ERR "Transmission failed..."
+# define SIG_INTARVAL 300
 
 # include <sys/types.h>
 # include <signal.h>
+# include <limits.h>
+# include <errno.h>
 
 typedef void(*t_sfunc)(int);
 
@@ -35,4 +35,6 @@ void	receive_bit(void);
 void	set_signal_handler(t_sfunc signal_handler);
 void	print_error_and_exit(char *err_msg);
 void	print_pid(int pid);
+int		input_pid(char *nptr);
+
 #endif

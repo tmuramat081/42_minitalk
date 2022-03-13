@@ -6,7 +6,7 @@
 /*   By: tmuramat <mt15hydrangea@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 19:49:55 by tmuramat          #+#    #+#             */
-/*   Updated: 2022/02/25 23:26:35 by tmuramat         ###   ########.fr       */
+/*   Updated: 2022/03/13 19:14:04 by tmuramat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdint.h>
+# include <limits.h>
+# include <errno.h>
+# include <string.h>
+# include <stdbool.h>
 
 typedef struct s_list
 {
@@ -66,5 +70,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+long	ft_strtol_d(const char *nptr, char **endp);
+int		ft_isspace(int c);
 
 #endif

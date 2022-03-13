@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minitalk_bonus.h"
+#include "system_message.h"
 #include "libft.h"
 
 volatile sig_atomic_t	g_received_signal;
@@ -25,7 +26,7 @@ void	sig_handler_client(int signal, siginfo_t *info, void *ucontext)
 /* Send signals with SIGUSR1(bit off) and SIGUSR2(bit on). */
 void	send_bit(pid_t svr_pid, char c)
 {
-	int	i;
+	unsigned int	i;
 
 	i = 0;
 	while (i < 8)
@@ -63,15 +64,11 @@ void	send_message(pid_t svr_pid, const char *str)
 
 int	main(int argc, char **argv)
 {
-	int	svr_pid;
+	pid_t	svr_pid;
 
-	if (argc != 3 || argv[2] == NULL)
+	if (argc != 3)
 		print_error_and_exit(MSG_ARG_ERR);
-	svr_pid = ft_atoi(argv[1]);
-	if (svr_pid <= 0)
-		print_error_and_exit(MSG_ARG_ERR);
-	if (kill(svr_pid, 0) == -1)
-		print_error_and_exit(MSG_SIG_ERR);
+	svr_pid = input_pid(argv[1]);
 	set_signal_handler(&sig_handler_client);
 	send_message(svr_pid, argv[2]);
 	return (0);

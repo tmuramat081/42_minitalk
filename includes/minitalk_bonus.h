@@ -14,16 +14,15 @@
 # define MINITALK_BONUS_H
 
 /* By default, client/server wait about 1 second for a signal */
-# define S_INITIAL -1
+# define SIG_INITIAL -1
 # define SIG_TIME_LIMIT 10000
-# define MSG_ARG_ERR "Invalid argument."
-# define MSG_SIG_ERR "Transmission failed..."
-# define MSG_REC_ACK "\nTransmission succeeded!"
 # define EOT 0x4
 
 # include <sys/types.h>
 # include <signal.h>
 # include <stdbool.h>
+# include <limits.h>
+# include <errno.h>
 
 typedef struct s_char {
 	char	c;
@@ -40,6 +39,7 @@ void	send_bit(pid_t svr_pid, char c);
 
 /*** server_bonus.c ***/
 void	sig_handler_server(int signal, siginfo_t *info, void *ucontext);
+void	stand_by_for_message(void);
 void	receive_message(t_char input);
 int		receive_client_pid(void);
 char	receive_bit(t_char *input);
@@ -49,5 +49,6 @@ bool	is_timeout(int time_limit);
 void	set_signal_handler(t_sfunc signal_handler);
 void	print_error_and_exit(char *err_msg);
 void	print_pid(int pid);
+int		input_pid(char *nptr);
 
 #endif
