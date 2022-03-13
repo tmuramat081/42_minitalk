@@ -29,12 +29,6 @@ void	set_signal_handler(t_sfunc signal_handler)
 		print_error_and_exit(MSG_SIG_ERR);
 }
 
-void	print_error_and_exit(char *err_msg)
-{
-	ft_putendl_fd(err_msg, 1);
-	exit(1);
-}
-
 void	print_pid(int pid)
 {
 	ft_putstr_fd("PID:", 1);
@@ -42,13 +36,20 @@ void	print_pid(int pid)
 	ft_putchar_fd('\n', 1);
 }
 
+void	print_error_and_exit(char *err_msg)
+{
+	ft_putendl_fd(err_msg, 1);
+	exit(EXIT_FAILURE);
+}
+
 pid_t	input_pid(char *nptr)
 {
 	char	*endptr;
 	long	input_pid;
 
+	errno = 0;
 	input_pid = ft_strtol_d(nptr, &endptr);
-	if (errno == ERANGE && (input_pid == LONG_MAX || input_pid == LONG_MIN))
+	if (errno)
 		print_error_and_exit(MSG_ARG_ERR);
 	else if (*endptr)
 		print_error_and_exit(MSG_ARG_ERR);

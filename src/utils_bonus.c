@@ -50,23 +50,24 @@ void	print_pid(pid_t pid)
 	ft_putchar_fd('\n', 1);
 }
 
+void	print_error_and_exit(char *err_msg)
+{
+	ft_putendl_fd(err_msg, 1);
+	exit(EXIT_FAILURE);
+}
+
 pid_t	input_pid(char *nptr)
 {
 	char	*endptr;
 	long	input_pid;
 
+	errno = 0;
 	input_pid = ft_strtol_d(nptr, &endptr);
-	if (errno != 0 && (input_pid == LONG_MAX || input_pid == LONG_MIN))
+	if (errno)
 		print_error_and_exit(MSG_ARG_ERR);
 	else if (*endptr)
 		print_error_and_exit(MSG_ARG_ERR);
 	else if (input_pid <= 0 || kill(input_pid, 0) == -1)
 		print_error_and_exit(MSG_SIG_ERR);
 	return ((pid_t)input_pid);
-}
-
-void	print_error_and_exit(char *err_msg)
-{
-	ft_putendl_fd(err_msg, 1);
-	exit(1);
 }
