@@ -35,6 +35,6 @@ void	receive_bit(void);
 void	set_signal_handler(t_sfunc signal_handler);
 void	print_error_and_exit(char *err_msg);
 void	print_pid(int pid);
-int		input_pid(char *nptr);
+pid_t	input_pid(char *nptr);
 
 #endif

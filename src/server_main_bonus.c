@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   system_message.h                                   :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmuramat <mt15hydrangea@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/13 21:30:06 by tmuramat          #+#    #+#             */
-/*   Updated: 2022/03/13 21:30:06 by tmuramat         ###   ########.fr       */
+/*   Created: 2022/03/10 14:36:58 by tmuramat          #+#    #+#             */
+/*   Updated: 2022/03/10 14:36:58 by tmuramat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYSTEM_MESSAGE_H
-# define SYSTEM_MESSAGE_H
+#include "minitalk_bonus.h"
 
-# define MSG_ARG_ERR "---Invalid argument.---"
-# define MSG_SIG_ERR "---Transmission failed.---"
-# define MSG_SUCCESS "---Transmission succeeded!---"
+int	main(void)
+{
+	pid_t	svr_pid;
 
-#endif
+	svr_pid = getpid();
+	print_pid(svr_pid);
+	set_signal_handler(&sig_handler_server);
+	stand_by_for_message();
+	return (0);
+}

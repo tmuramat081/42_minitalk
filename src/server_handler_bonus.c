@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server_bonus.c                                     :+:      :+:    :+:   */
+/*   server_handler_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmuramat <mt15hydrangea@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/10 14:36:58 by tmuramat          #+#    #+#             */
-/*   Updated: 2022/03/10 14:36:58 by tmuramat         ###   ########.fr       */
+/*   Created: 2022/03/13 20:43:32 by tmuramat          #+#    #+#             */
+/*   Updated: 2022/03/13 20:43:32 by tmuramat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk_bonus.h"
 #include "libft.h"
+
+#define SIG_INITIAL -1
 
 volatile sig_atomic_t	g_received_signal;
 
@@ -25,20 +27,22 @@ void	sig_handler_server(int signal, siginfo_t *info, void *ucontext)
 }
 
 /* Convert binary into a character. */
-char	receive_bit(t_char *input)
+void	receive_bit(t_char *input)
 {
-	char		ret_c;
-
 	if (g_received_signal == SIGUSR2)
 		input->c |= (1 << input->i);
 	input->i++;
-	if (input->i == 8)
+	if (input->i == CHAR_BIT)
 	{
-		ret_c = input->c;
-		ft_bzero(input, sizeof(t_char));
-		return (ret_c);
+		if (!input->c)
+		{
+			input->is_null = true;
+			return ;
+		}
+		write(1, &input->c, 1);
+		input->c = 0;
+		input->i = 0;
 	}
-	return (0);
 }
 
 int	receive_client_pid(void)
@@ -54,18 +58,15 @@ int	receive_client_pid(void)
 void	receive_message(t_char input)
 {
 	int		cli_pid;
-	char	output_c;
 
 	cli_pid = receive_client_pid();
 	while (is_timeout(SIG_TIME_LIMIT) == false)
 	{
-		output_c = receive_bit(&input);
+		receive_bit(&input);
 		g_received_signal = 0;
 		kill(cli_pid, SIGUSR1);
-		if (output_c)
-			write(1, &output_c, 1);
-		if (output_c == EOT)
-			break ;
+		if (input.is_null == true)
+			return ;
 	}
 }
 
@@ -80,15 +81,4 @@ void	stand_by_for_message(void)
 		pause();
 		receive_message(input);
 	}
-}
-
-int	main(void)
-{
-	pid_t	svr_pid;
-
-	svr_pid = getpid();
-	print_pid(svr_pid);
-	set_signal_handler(&sig_handler_server);
-	stand_by_for_message();
-	return (0);
 }

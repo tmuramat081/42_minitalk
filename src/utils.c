@@ -42,13 +42,13 @@ void	print_pid(int pid)
 	ft_putchar_fd('\n', 1);
 }
 
-int	input_pid(char *nptr)
+pid_t	input_pid(char *nptr)
 {
 	char	*endptr;
 	long	input_pid;
 
 	input_pid = ft_strtol_d(nptr, &endptr);
-	if (errno != 0 && (input_pid == LONG_MAX || input_pid == LONG_MIN))
+	if (errno == ERANGE && (input_pid == LONG_MAX || input_pid == LONG_MIN))
 		print_error_and_exit(MSG_ARG_ERR);
 	else if (*endptr)
 		print_error_and_exit(MSG_ARG_ERR);

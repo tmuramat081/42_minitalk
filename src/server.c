@@ -35,7 +35,6 @@ void	receive_bit(void)
 		c = 0;
 		i = 0;
 	}
-	return ;
 }
 
 void	receive_message(void)

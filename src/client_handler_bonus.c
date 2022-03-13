@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client_bonus.c                                     :+:      :+:    :+:   */
+/*   client_utils_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmuramat <mt15hydrangea@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/10 14:36:48 by tmuramat          #+#    #+#             */
-/*   Updated: 2022/03/10 14:36:48 by tmuramat         ###   ########.fr       */
+/*   Created: 2022/03/13 20:38:45 by tmuramat          #+#    #+#             */
+/*   Updated: 2022/03/13 20:38:45 by tmuramat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	send_bit(pid_t svr_pid, char c)
 	unsigned int	i;
 
 	i = 0;
-	while (i < 8)
+	while (i < CHAR_BIT)
 	{
 		g_received_signal = 0;
 		if (((c >> i) & 1) == 0)
@@ -53,23 +53,12 @@ void	send_client_pid(pid_t svr_pid)
 void	send_message(pid_t svr_pid, const char *str)
 {
 	send_client_pid(svr_pid);
-	while (*str != '\0')
+	while (1)
 	{
 		send_bit(svr_pid, *str);
+		if (*str == '\0')
+			break ;
 		str++;
 	}
-	send_bit(svr_pid, EOT);
-	ft_putendl_fd(MSG_REC_ACK, 1);
-}
-
-int	main(int argc, char **argv)
-{
-	pid_t	svr_pid;
-
-	if (argc != 3)
-		print_error_and_exit(MSG_ARG_ERR);
-	svr_pid = input_pid(argv[1]);
-	set_signal_handler(&sig_handler_client);
-	send_message(svr_pid, argv[2]);
-	return (0);
+	ft_putendl_fd(MSG_SUCCESS, 1);
 }
