@@ -52,7 +52,7 @@ pid_t	input_pid(char *nptr)
 	input_pid = ft_strtol_d(nptr, &endptr);
 	if (errno)
 		print_error_and_exit(MSG_ARG_ERR);
-	else if (*endptr)
+	else if (*endptr || endptr == nptr)
 		print_error_and_exit(MSG_ARG_ERR);
 	else if (input_pid <= 0 || kill(input_pid, 0) == -1)
 		print_error_and_exit(MSG_SIG_ERR);
