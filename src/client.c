@@ -14,7 +14,7 @@
 #include "system_message.h"
 #include "libft.h"
 
-/* Send signals with SIGUSR1(bit off) and SIGUSR2(bit on). */
+/* Send signals with SIGUSR1(as 0 bit) and SIGUSR2(as 1 bit). */
 void	send_bit(pid_t svr_pid, char c)
 {
 	unsigned int	i;

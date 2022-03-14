@@ -14,7 +14,7 @@
 #include "system_message.h"
 #include "libft.h"
 
-/* Initialize signal_handler. */
+/* Initialize signal_handler, masking all but SIGUER1 and SIGUSR2. */
 void	set_signal_handler(t_sfunc signal_handler)
 {
 	struct sigaction	sa;
@@ -42,6 +42,7 @@ void	print_error_and_exit(char *err_msg)
 	exit(EXIT_FAILURE);
 }
 
+/* Validate an PID for secure transmission. */
 pid_t	input_pid(char *nptr)
 {
 	char	*endptr;

@@ -23,7 +23,7 @@ void	sig_handler_client(int signal, siginfo_t *info, void *ucontext)
 	g_received_signal = signal;
 }
 
-/* Send signals with SIGUSR1(bit off) and SIGUSR2(bit on). */
+/* Send signals with SIGUSR1(as 0 bit) and SIGUSR2(as 1 bit). */
 void	send_bit(pid_t svr_pid, char c)
 {
 	unsigned int	i;
@@ -49,7 +49,7 @@ void	send_client_pid(pid_t svr_pid)
 		print_error_and_exit(MSG_SIG_ERR);
 }
 
-/* After sendng all the characters, send EOT(End Of Transmission) signal. */
+/* Send all the characters, including null character. */
 void	send_message(pid_t svr_pid, const char *str)
 {
 	send_client_pid(svr_pid);

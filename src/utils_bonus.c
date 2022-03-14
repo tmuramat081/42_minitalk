@@ -16,7 +16,8 @@
 
 extern volatile sig_atomic_t	g_received_signal;
 
-/* Wait signal from the client/server. */
+/* Wait signal from the client/server. By default,
+   it times out in about 0.1 second or more. */
 bool	is_timeout(int time_limit)
 {
 	while (time_limit--)
@@ -28,7 +29,7 @@ bool	is_timeout(int time_limit)
 	return (true);
 }
 
-/* Initialize signal_handler. */
+/* Initialize signal_handler, masking all but SIGUER1 and SIGUSR2. */
 void	set_signal_handler(t_sfunc signal_handler)
 {
 	struct sigaction	sa;
@@ -56,6 +57,7 @@ void	print_error_and_exit(char *err_msg)
 	exit(EXIT_FAILURE);
 }
 
+/* Validate an PID for secure transmission. */
 pid_t	input_pid(char *nptr)
 {
 	char	*endptr;

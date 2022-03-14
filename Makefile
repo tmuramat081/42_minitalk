@@ -5,7 +5,6 @@ CLIENT_SRCS = ./src/client.c ./src/utils.c
 SERVER_SRCS = ./src/server.c ./src/utils.c
 CLIENT_OBJS = ${CLIENT_SRCS:.c=.o}
 SERVER_OBJS = ${SERVER_SRCS:.c=.o}
-BONUS_NAME = minitalk_bonus
 CLIENT_BONUS_NAME = client_bonus
 SERVER_BONUS_NAME = server_bonus
 CLIENT_BONUS_SRCS = ./src/client_main_bonus.c ./src/client_handler_bonus.c ./src/utils_bonus.c
@@ -13,7 +12,7 @@ SERVER_BONUS_SRCS = ./src/server_main_bonus.c ./src/server_handler_bonus.c ./src
 CLIENT_BONUS_OBJS = ${CLIENT_BONUS_SRCS:.c=.o}
 SERVER_BONUS_OBJS = ${SERVER_BONUS_SRCS:.c=.o}
 LIBFTDIR = ./libft
-LIBFT = ./libft/libft.a
+LIBFT = ${LIBFTDIR}/libft.a
 INCS = -I ./includes -I ${LIBFTDIR}
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
