@@ -14,6 +14,9 @@
 #include "system_message.h"
 #include "libft.h"
 
+#define PID_MAX INT_MAX
+#define PID_MIN INT_MIN
+
 /* Initialize signal_handler, masking all but SIGUER1 and SIGUSR2. */
 void	set_signal_handler(t_sfunc signal_handler)
 {
@@ -50,11 +53,11 @@ pid_t	input_pid(char *nptr)
 
 	errno = 0;
 	input_pid = ft_strtol_d(nptr, &endptr);
-	if (errno)
-		print_error_and_exit(MSG_ARG_ERR);
+	if (errno || input_pid < PID_MIN || PID_MAX < input_pid)
+		print_error_and_exit(MSG_VAL_ERR);
 	else if (*endptr || endptr == nptr)
 		print_error_and_exit(MSG_ARG_ERR);
 	else if (input_pid <= 0 || kill(input_pid, 0) == -1)
 		print_error_and_exit(MSG_SIG_ERR);
-	return ((pid_t)input_pid);
+	return (input_pid);
 }

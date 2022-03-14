@@ -14,6 +14,9 @@
 #include "system_message.h"
 #include "libft.h"
 
+#define PID_MAX INT_MAX
+#define PID_MIN INT_MIN
+
 extern volatile sig_atomic_t	g_received_signal;
 
 /* Wait signal from the client/server. By default,
@@ -65,8 +68,8 @@ pid_t	input_pid(char *nptr)
 
 	errno = 0;
 	input_pid = ft_strtol_d(nptr, &endptr);
-	if (errno)
-		print_error_and_exit(MSG_ARG_ERR);
+	if (errno || input_pid < PID_MIN || PID_MAX < input_pid)
+		print_error_and_exit(MSG_VAL_ERR);
 	else if (*endptr || endptr == nptr)
 		print_error_and_exit(MSG_ARG_ERR);
 	else if (input_pid <= 0 || kill(input_pid, 0) == -1)

@@ -13,6 +13,7 @@
 #ifndef SYSTEM_MESSAGE_H
 # define SYSTEM_MESSAGE_H
 
+# define MSG_VAL_ERR "---Invalid value.---"
 # define MSG_ARG_ERR "---Invalid argument.---"
 # define MSG_SIG_ERR "---Transmission failed.---"
 # define MSG_SUCCESS "---Transmission succeeded!---"
